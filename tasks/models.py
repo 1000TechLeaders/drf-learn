@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name="Nom de la tache")
     description = models.TextField(max_length=500)
     owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     completed = models.BooleanField(default=False)

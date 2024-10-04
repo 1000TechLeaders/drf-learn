@@ -1,10 +1,15 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.response import Response
+from rest_framework import generics
 
 from .models import Task
 from .serializers import TaskSerializer
 
 
-class TaskViewSet(ModelViewSet):
-    queryset = Task.objects.all()
+class ListCreateTaskView(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
+    queryset = Task.objects.all()
+
+
+class DetailDeleteTaskView(generics.RetrieveDestroyAPIView):
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()

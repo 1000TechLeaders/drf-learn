@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_extensions',
+    'drf_spectacular',
 
     'tasks',
 ]
@@ -137,3 +138,8 @@ EMAIL_USE_TLS = True
 DOMAIN_URL = 'localhost:8000'
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}

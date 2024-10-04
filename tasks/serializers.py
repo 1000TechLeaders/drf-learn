@@ -9,17 +9,18 @@ class TaskSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(
         source='owner.first_name', read_only=True,
     )
-    created_at = serializers.DateTimeField(validators=[check_datetime])
-    expired_at = serializers.DateTimeField(validators=[check_datetime])
+    created_at = serializers.DateTimeField(validators=[check_datetime], write_only=True)
+    expired_at = serializers.DateTimeField(validators=[check_datetime], write_only=True)
 
     class Meta:
         model = Task
         fields = [
-            'name', 'first_name', 'description',
+            'id', 'name', 'first_name', 'description',
             'completed', 'level',
             'created_at', 'expired_at'
         ]
         read_only_fields = ['completed', ]
+
 
     def validate_level(self, value):
         if value > 10 or value < 0:
@@ -30,7 +31,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def validate_name(self, value):
         if Task.objects.filter(name=value).exists():
-            raise serializers.ValidationError("")
+            raise serializers.ValidationError("Nom de tache unique")
         return value
 
     def validate(self, data):
@@ -41,8 +42,8 @@ class TaskSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        instance = Task.objects.created(**validated_data)
-        send_activation_email(user=instance.owner)
+        instance = Task.objects.create(**validated_data)
+        # send_activation_email(user=instance.owner)
         return instance
 
     def update(self, instance, validated_data):
