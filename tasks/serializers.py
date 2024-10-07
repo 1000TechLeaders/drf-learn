@@ -1,25 +1,39 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from django.contrib.auth.models import User
 
-from .models import Task
+from .models import Task, Category
 from .utils import check_datetime, send_activation_email
 
 
+class OwnerTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', )
+        read_only_fields = fields
+
+
+class CategoryTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('name', 'created_at')
+        read_only_fields = ('created_at', )
+
+
 class TaskSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(
-        source='owner.first_name', read_only=True,
-    )
+    owner = OwnerTaskSerializer(read_only=True)
     created_at = serializers.DateTimeField(validators=[check_datetime], write_only=True)
     expired_at = serializers.DateTimeField(validators=[check_datetime], write_only=True)
+    category = CategoryTaskSerializer()
 
     class Meta:
         model = Task
         fields = [
-            'id', 'name', 'first_name', 'description',
-            'completed', 'level',
+            'id', 'name', 'description',
+            'completed', 'level', 'category', 'owner',
             'created_at', 'expired_at'
         ]
-        read_only_fields = ['completed', ]
+        read_only_fields = ['completed',]
 
 
     def validate_level(self, value):
@@ -35,10 +49,11 @@ class TaskSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, data):
-        if data['created_at'] > data['expired_at']:
-            raise serializers.ValidationError(
-                "La date d'expiration doit etre superieur a la date creation"
-            )
+        if data.get('created_at') and data.get('expired_at'):
+            if data['created_at'] > data['expired_at']:
+                raise serializers.ValidationError(
+                    "La date d'expiration doit etre superieur a la date creation"
+                )
         return data
 
     def create(self, validated_data):
@@ -52,3 +67,12 @@ class TaskSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    tasks = TaskSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = ('name', 'created_at', 'tasks')
+        read_only_fields = ['created_at', 'tasks']
