@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'drf_spectacular',
+    'rest_framework.authtoken',
 
     'tasks',
 ]
@@ -142,4 +143,7 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework.authentication.BasicAuthentication',
+    # ]
 }
