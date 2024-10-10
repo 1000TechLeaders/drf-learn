@@ -7,6 +7,7 @@ from rest_framework import mixins
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Task, Category
 from .serializers import TaskSerializer, CategorySerializer
@@ -31,5 +32,5 @@ class TaskViewSet(mixins.CreateModelMixin,
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
