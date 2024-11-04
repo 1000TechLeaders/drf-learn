@@ -6,7 +6,7 @@ class IsCompletedAdmin(BasePermission):
         return obj.completed == False
 
     def has_permission(self, request, view):
-        return request.user.is_superuser == 1
+        return request.user.is_superuser == True
 
 
 

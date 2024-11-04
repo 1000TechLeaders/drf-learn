@@ -22,8 +22,8 @@ class CategoryTaskSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     owner = OwnerTaskSerializer(read_only=True)
-    created_at = serializers.DateTimeField(validators=[check_datetime], write_only=True)
-    expired_at = serializers.DateTimeField(validators=[check_datetime], write_only=True)
+    created_at = serializers.DateTimeField(validators=[check_datetime])
+    expired_at = serializers.DateTimeField(validators=[check_datetime])
     category = CategoryTaskSerializer()
 
     class Meta:
@@ -37,7 +37,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
     def validate_level(self, value):
-        if value > 10 or value < 0:
+        if not (0 < value <= 10):
             raise serializers.ValidationError(
                 "Le niveau doit etre compris entre 0 et 10"
             )
@@ -57,7 +57,9 @@ class TaskSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        instance = Task.objects.create(**validated_data)
+        category_data = validated_data.pop('category')
+        category = Category.objects.create(**category_data)
+        instance = Task.objects.create(**validated_data, category=category)
         # send_activation_email(user=instance.owner)
         return instance
 

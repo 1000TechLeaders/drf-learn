@@ -5,6 +5,8 @@ from .views import (
     TaskViewSet, CategoryViewSet
 )
 
+app_name = 'tasks'
+
 router = routers.SimpleRouter()
 router.register('tasks', TaskViewSet)
 router.register('categories', CategoryViewSet)

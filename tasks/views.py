@@ -14,6 +14,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from .models import Task, Category
 from .serializers import TaskSerializer, CategorySerializer
 from .permissions import IsCompletedAdmin, ReadOnly
+from .filters import TaskFilter
 
 
 # ListAPIView, CeateAPIView, RetrieveAPIView, UpdateAPIView, DestryAPIView
@@ -27,11 +28,14 @@ class TaskViewSet(mixins.CreateModelMixin,
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated, IsCompletedAdmin, ReadOnly]
     authentication_classes = [
-        BasicAuthentication, SessionAuthentication,
+        JWTAuthentication, BasicAuthentication, SessionAuthentication,
     ]
     lookup_field = 'id'
     pagination_class = LimitOffsetPagination
-    filterset_fields = ('completed', 'category__name')
+    filterset_class = TaskFilter
+    search_fields = ['name', 'description', 'category__name']
+    # ordering_fields = ['created_at', 'expired_at', 'level']
+
 
 
 # or ReadOnlyModelViewSet

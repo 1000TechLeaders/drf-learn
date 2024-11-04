@@ -19,3 +19,9 @@ class Task(models.Model):
     )
     created_at = models.DateTimeField(default=timezone.now)
     expired_at = models.DateTimeField()
+
+    @property
+    def is_editable(self):
+        if not self.completed:
+            return True
+        return False
