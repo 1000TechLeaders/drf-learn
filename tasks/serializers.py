@@ -1,9 +1,10 @@
-from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
+from rest_framework import serializers
 
-from .models import Task, Category
-from .utils import check_datetime, send_activation_email
+from .models import Category
+from .models import Task
+from .utils import check_datetime
+# from .utils import send_activation_email
 
 
 class OwnerTaskSerializer(serializers.ModelSerializer):
@@ -35,7 +36,6 @@ class TaskSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['completed',]
 
-
     def validate_level(self, value):
         if not (0 < value <= 10):
             raise serializers.ValidationError(
@@ -52,7 +52,8 @@ class TaskSerializer(serializers.ModelSerializer):
         if data.get('created_at') and data.get('expired_at'):
             if data['created_at'] > data['expired_at']:
                 raise serializers.ValidationError(
-                    "La date d'expiration doit etre superieur a la date creation"
+                    "La date d'expiration doit etre superieur a la date "
+                    "creation"
                 )
         return data
 
@@ -65,7 +66,9 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
-        instance.description = validated_data.get('description', instance.description)
+        instance.description = validated_data.get(
+            'description', instance.description
+        )
         instance.save()
 
         return instance

@@ -1,10 +1,12 @@
 import pytest
 from django.urls import reverse
+
 from tasks.models import Category
 
 
 @pytest.mark.django_db
-def test_create_category_view(authenticated_api_client):
+def test_create_category_view(authenticated_user_api_client):
+    authenticated_api_client, user = authenticated_user_api_client
     url = reverse('tasks:category-list')
     data = {
         'name': "Category test 2"
@@ -16,7 +18,8 @@ def test_create_category_view(authenticated_api_client):
 
 
 @pytest.mark.django_db
-def test_update_category_view(authenticated_api_client):
+def test_update_category_view(authenticated_user_api_client):
+    authenticated_api_client, user = authenticated_user_api_client
     instance = Category.objects.create(name='Test update')
     url = f'/api/categories/{instance.pk}/'
     data = {
@@ -33,7 +36,8 @@ def test_update_category_view(authenticated_api_client):
 
 
 @pytest.mark.django_db
-def test_delete_category_view(authenticated_api_client):
+def test_delete_category_view(authenticated_user_api_client):
+    authenticated_api_client, user = authenticated_user_api_client
     instance = Category.objects.create(name='Test update')
     url = f'/api/categories/{instance.pk}/'
     assert Category.objects.filter(name='Test update').exists()

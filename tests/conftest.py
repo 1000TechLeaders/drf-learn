@@ -1,8 +1,9 @@
 import pytest
-from rest_framework.test import APIClient
-from tasks.models import Category
 from django.contrib.auth.models import User
+from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import AccessToken
+
+from tasks.models import Category
 
 
 @pytest.fixture
@@ -22,7 +23,7 @@ def categories_data():
 
 
 @pytest.fixture
-def authenticated_api_client(api_client):
+def authenticated_user_api_client(api_client):
     user = User.objects.create_user(
         email='testuser@gmail.com',
         username='testuser@gmail.com',
@@ -31,4 +32,4 @@ def authenticated_api_client(api_client):
     )
     token = AccessToken.for_user(user)
     api_client.credentials(HTTP_AUTHORIZATION=f'Bearer {str(token)}')
-    return api_client
+    return api_client, user

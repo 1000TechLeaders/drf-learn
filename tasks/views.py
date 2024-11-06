@@ -1,20 +1,19 @@
-from django.shortcuts import get_object_or_404
-
-from rest_framework import viewsets
-from rest_framework import generics
-from rest_framework.response import Response
 from rest_framework import mixins
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework import viewsets
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.pagination import LimitOffsetPagination
 
-from .models import Task, Category
-from .serializers import TaskSerializer, CategorySerializer
-from .permissions import IsCompletedAdmin, ReadOnly
 from .filters import TaskFilter
+from .models import Category
+from .models import Task
+from .permissions import IsCompletedAdmin
+from .permissions import ReadOnly
+from .serializers import CategorySerializer
+from .serializers import TaskSerializer
 
 
 # ListAPIView, CeateAPIView, RetrieveAPIView, UpdateAPIView, DestryAPIView
@@ -36,6 +35,12 @@ class TaskViewSet(mixins.CreateModelMixin,
     search_fields = ['name', 'description', 'category__name']
     # ordering_fields = ['created_at', 'expired_at', 'level']
 
+    def get_queryset(self):
+        return self.queryset.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(owner=user)
 
 
 # or ReadOnlyModelViewSet
