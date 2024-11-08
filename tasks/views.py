@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.authentication import BasicAuthentication
@@ -50,3 +51,15 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     authentication_classes = [JWTAuthentication]
     pagination_class = None
+
+
+def custom_404_view(request, exception=None):
+    return JsonResponse({
+        'detail': 'Ressource non trouve.'
+    }, status=404)
+
+
+def custom_500_view(request):
+    return JsonResponse({
+        'detail': 'Une erreur est survenue, reessayer ulterieurment.'
+    }, status=500)

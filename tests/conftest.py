@@ -28,7 +28,7 @@ def authenticated_user_api_client(api_client):
         email='testuser@gmail.com',
         username='testuser@gmail.com',
         password='123245',
-        is_superuser=True
+        is_superuser=True,
     )
     token = AccessToken.for_user(user)
     api_client.credentials(HTTP_AUTHORIZATION=f'Bearer {str(token)}')
