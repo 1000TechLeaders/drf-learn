@@ -11,7 +11,7 @@ jobs:
   check_syntaxe:
     runs-on: ubuntu-lastest
     strategy:
-      maxtrix:
+      matrix:
         python-version: [3.12]
 
     steps:
