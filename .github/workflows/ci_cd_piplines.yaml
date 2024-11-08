@@ -1,4 +1,4 @@
-name: Kerfala build
+name: Pipline CI/CD build
 on:
   push:
     branches:
