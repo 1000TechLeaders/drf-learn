@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:15.8
+    ports:
+      - 5459:5432
+    environment:
+      - POSTGRES_USER=task
+      - POSTGRES_PASSWORD=task
+    volumes:
+      - pg_data_task:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+
+volumes:
+  pg_data_task:
