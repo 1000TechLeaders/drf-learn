@@ -9,7 +9,7 @@ on:
 
 jobs:
   check_syntaxe:
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.12]
