@@ -25,3 +25,8 @@ make migrate
 ```sh
 make test
 ```
+
+# Run server
+```sh
+make run_dev
+```
