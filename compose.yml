@@ -1,0 +1,23 @@
+networks:
+  traefik-public:
+    external: true
+
+services:
+  web:
+    image: diallodocker/task-learn:latest
+    env_file:
+      - .env
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.app-http.rule=Host(`${DOMAIN?Variable not set}`)
+      - traefik.http.routers.app-http.entrypoints=http
+      - traefik.http.routers.app-http.middlewares=https-redirect
+      - traefik.http.routers.app-https.rule=Host(`${DOMAIN?Variable not set}`)
+      - traefik.http.routers.app-http.entrypoints=https
+      - traefik.http.routers.app-http.tls=true
+      - traefik.http.routers.app-http.tls.certresolver=le
+      - traefik.http.services.app.loadbalancer.server.port=8080
+    networks:
+      - traefik-public
