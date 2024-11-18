@@ -1,7 +1,21 @@
+import os
+
+import dj_database_url
+import environ
+
 from .settings import *  # noqa
 
-SECRET_KEY = 'l8hc_r2^i7!2ky7q0na7%o3svry!mjltokl^!k0bx@-z))en=m'
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['gn-techleader.com', 'localhost']
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+
+DATABASES = {'default': dj_database_url.config(conn_health_checks=True)}
