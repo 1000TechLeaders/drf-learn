@@ -16,6 +16,6 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
 DATABASES = {'default': dj_database_url.config(conn_health_checks=True)}
