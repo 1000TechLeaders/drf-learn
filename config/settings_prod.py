@@ -26,4 +26,4 @@ STORAGES = {
     },
 }
 
-CSRF_TRUSTED_ORIGINS = env('DOMAIN').split(',')
+CSRF_TRUSTED_ORIGINS = env('TRUSTED_ORIGINS').split(',')
