@@ -22,7 +22,7 @@ DATABASES = {'default': dj_database_url.config(conn_health_checks=True)}
 
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
