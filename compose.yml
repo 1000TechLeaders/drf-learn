@@ -21,3 +21,8 @@ services:
       - traefik.http.services.app.loadbalancer.server.port=8080
     networks:
       - traefik-public
+    volumes:
+      - staticdata:/app/static
+
+volumes:
+  staticdata:
