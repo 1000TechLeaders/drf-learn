@@ -38,3 +38,18 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 ADMINS = [('Harouna', 'dev.harouna@gmail.com')]
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+    },
+}
+
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_S3_ENDPOINT_URL = env('AWS_S3_ENDPOINT_URL')
+AWS_STORAGE_BUCKET_NAME = '1000techleaders'
+
+STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/static'
+
+MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/media'
