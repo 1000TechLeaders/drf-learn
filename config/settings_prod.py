@@ -47,6 +47,7 @@ AWS_S3_ENDPOINT_FILES = env('AWS_S3_ENDPOINT_URL')
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400'
 }
+AWS_DEFAULT_ACL = 'public-read'
 
 STORAGES = {
     "default": {
