@@ -13,6 +13,10 @@ services:
       - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
       - traefik.http.middlewares.https-compress.compress=true
+      - traefik.http.middlewares.app-http.headers.stsSeconds=31536000
+      - traefik.http.middlewares.app-http.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.app-http.headers.stsPreload=true
+      - traefik.http.middlewares.app-http.headers.forceSTSHeader=true
     volumes:
       -  /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik-public-certificates:/certificates
@@ -25,6 +29,8 @@ services:
       - --certificatesresolvers.le.acme.email=dev.harouna@gmail.com
       - --certificatesresolvers.le.acme.tlschallenge=true
       - --accesslog
+      - --entrypoints.http.http.redirections.entryPoint.to=https
+      - --entrypoints.http.http.redirections.entryPoint.scheme=https
       - --log
       - --accesslog.filePath=/var/log/access.log
       - --api
