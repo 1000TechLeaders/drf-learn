@@ -69,16 +69,20 @@ AWS_QUERYSTRING_AUTH = False
 CSP_SCRIPT_SRC = [
     "'self'",
     "https://1000techleaders.fra1.digitaloceanspaces.com",
+    "https://cdn.jsdelivr.net",
 ]
 CSP_STYLE_SRC = [
     "'self'",
     "https://1000techleaders.fra1.digitaloceanspaces.com",
+    "https://cdn.jsdelivr.net",
 ]
 CSP_IMG_SRC = [
     "'self'",
     "https://1000techleaders.fra1.digitaloceanspaces.com",
+    "https://cdn.jsdelivr.net",
 ]
 CSP_FONT_SRC = [
     "'self'",
     "https://1000techleaders.fra1.digitaloceanspaces.com",
+    "https://cdn.jsdelivr.net",
 ]
