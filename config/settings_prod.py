@@ -64,3 +64,21 @@ MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/media'
 
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3ManifestStaticStorage'
 AWS_QUERYSTRING_AUTH = False
+
+
+CSP_SCRIPT_SRC = [
+    "'self'",
+    "https://1000techleaders.fra1.digitaloceanspaces.com",
+]
+CSP_STYLE_SRC = [
+    "'self'",
+    "https://1000techleaders.fra1.digitaloceanspaces.com",
+]
+CSP_IMG_SRC = [
+    "'self'",
+    "https://1000techleaders.fra1.digitaloceanspaces.com",
+]
+CSP_FONT_SRC = [
+    "'self'",
+    "https://1000techleaders.fra1.digitaloceanspaces.com",
+]
