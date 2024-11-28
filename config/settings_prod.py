@@ -39,24 +39,27 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 ADMINS = [('Harouna', 'dev.harouna@gmail.com')]
 
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = '1000techleaders'
+AWS_S3_ENDPOINT_URL = env('AWS_S3_ENDPOINT_URL')
+AWS_S3_ENDPOINT_FILES = env('AWS_S3_ENDPOINT_URL')
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400'
+}
+
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
-        "OPTIONS": {
-            "access_key": env('AWS_ACCESS_KEY_ID'),
-            "secret_key": env('AWS_SECRET_ACCESS_KEY'),
-            "endpoint_url": env('AWS_S3_ENDPOINT_URL'),
-            "region_name": "fra1",
-            "buck_name": "1000techleaders",
-        }
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "storages.backends.s3.S3Storage",
     },
 }
-
-AWS_S3_ENDPOINT_URL = env('AWS_S3_ENDPOINT_URL')
 
 STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/static'
 
 MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/media'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3ManifestStaticStorage'
+AWS_QUERYSTRING_AUTH = False
