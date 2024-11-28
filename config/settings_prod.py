@@ -71,6 +71,7 @@ CSP_SCRIPT_SRC = [
     "https://1000techleaders.fra1.digitaloceanspaces.com",
     "https://cdn.jsdelivr.net",
     "'sha256-esBYL5BIXSaypiUpW2/SyoJ0wXhGocgTOpqX6YCsCgM='",
+    "'sha256-LK7q5ktcwGVhzvNOvIdEuhzNV/lIbbkVAcplPcU6LTY='",
 ]
 CSP_STYLE_SRC = [
     "'self'",
