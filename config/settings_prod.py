@@ -51,7 +51,7 @@ STORAGES = {
         }
     },
     "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3ManifestStaticStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
