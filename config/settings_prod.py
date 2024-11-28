@@ -70,13 +70,13 @@ CSP_SCRIPT_SRC = [
     "'self'",
     "https://1000techleaders.fra1.digitaloceanspaces.com",
     "https://cdn.jsdelivr.net",
-    "sha256-esBYL5BIXSaypiUpW2/SyoJ0wXhGocgTOpqX6YCsCgM=",
+    "'sha256-esBYL5BIXSaypiUpW2/SyoJ0wXhGocgTOpqX6YCsCgM='",
 ]
 CSP_STYLE_SRC = [
     "'self'",
     "https://1000techleaders.fra1.digitaloceanspaces.com",
     "https://cdn.jsdelivr.net",
-    "sha256-MMpT0iDxyjALd9PdfepImGX3DBfJPXZ4IlDWdPAgtn0=",
+    "'sha256-MMpT0iDxyjALd9PdfepImGX3DBfJPXZ4IlDWdPAgtn0='",
 ]
 CSP_IMG_SRC = [
     "'self'",
