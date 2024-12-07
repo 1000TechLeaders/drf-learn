@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from csp.decorators import csp_exempt
 from django.conf.urls import handler404
 from django.conf.urls import handler500
 from django.contrib import admin
@@ -38,10 +39,11 @@ urlpatterns = [
     # Optional UI:
     path('docs/',
          staff_member_required(
-         SpectacularSwaggerView.as_view(url_name='schema')),
+         csp_exempt(SpectacularSwaggerView.as_view(url_name='schema'))),
          name='swagger-ui'),
     path('redoc/',
-         SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+         csp_exempt(SpectacularRedocView.as_view(url_name='schema')),
+         name='redoc'),
     # tokens
     path('api/token/',
          TokenObtainPairView.as_view(), name='token_obtain_pair'),
