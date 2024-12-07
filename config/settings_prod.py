@@ -73,12 +73,16 @@ CSP_SCRIPT_SRC = [
     "'sha256-esBYL5BIXSaypiUpW2/SyoJ0wXhGocgTOpqX6YCsCgM='",
     "'sha256-LK7q5ktcwGVhzvNOvIdEuhzNV/lIbbkVAcplPcU6LTY='",
     "'sha256-26Yp43TbsHbUb8RbM0dviI0w49jXqp9onE3Cw4z3KRY=''",
+    "https://fonts.gstatic.com",
+    "https://fonts.googleapis.com",
 ]
 CSP_STYLE_SRC = [
     "'self'",
     "https://1000techleaders.fra1.digitaloceanspaces.com",
     "https://cdn.jsdelivr.net",
     "'sha256-MMpT0iDxyjALd9PdfepImGX3DBfJPXZ4IlDWdPAgtn0='",
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
 ]
 CSP_IMG_SRC = [
     "'self'",
