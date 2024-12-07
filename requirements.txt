@@ -32,3 +32,4 @@ django-permissions-policy==4.23.0
 django_csp==3.8
 django-storages==1.14.4
 boto3==1.35.69
+drf_spectacular_sidecar==2024.12.1
