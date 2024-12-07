@@ -40,14 +40,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_extensions',
+    'tasks',
     'drf_spectacular',
     'drf_spectacular_sidecar',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'django_filters',
     'csp',
-
-    'tasks',
 ]
 
 MIDDLEWARE = [
