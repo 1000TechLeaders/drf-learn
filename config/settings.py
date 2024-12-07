@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'drf_spectacular',
+    'drf_spectacular_sidecar',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'django_filters',
@@ -229,4 +230,10 @@ PERMISSIONS_POLICY = {
     "midi": [],
     "payment": [],
     "usb": [],
+}
+
+SPECTACULAR_SETTINGS = {
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
 }

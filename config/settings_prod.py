@@ -72,6 +72,7 @@ CSP_SCRIPT_SRC = [
     "https://cdn.jsdelivr.net",
     "'sha256-esBYL5BIXSaypiUpW2/SyoJ0wXhGocgTOpqX6YCsCgM='",
     "'sha256-LK7q5ktcwGVhzvNOvIdEuhzNV/lIbbkVAcplPcU6LTY='",
+    "'sha256-26Yp43TbsHbUb8RbM0dviI0w49jXqp9onE3Cw4z3KRY=''",
 ]
 CSP_STYLE_SRC = [
     "'self'",
