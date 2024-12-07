@@ -58,9 +58,9 @@ STORAGES = {
     },
 }
 
-STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/static'
+STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/static/'
 
-MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/media'
+MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/tasks/media/'
 
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3ManifestStaticStorage'
 AWS_QUERYSTRING_AUTH = False
