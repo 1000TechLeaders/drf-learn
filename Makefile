@@ -27,3 +27,7 @@ superuser:
 .PHONY: migrate
 migrate:
 	python manage.py migrate
+
+.PHONY: workers
+workers:
+	celery -A config worker --loglevel=INFO

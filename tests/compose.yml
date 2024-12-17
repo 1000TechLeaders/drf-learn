@@ -9,6 +9,18 @@ services:
     volumes:
       - pg_data_task:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    ports:
+      - 5677:5672
+      - 15677:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=task
+      - RABBITMQ_DEFAULT_PASS=task
+  redis:
+    image: redis:7.4.1
+    ports:
+      - 6377:6379
 
 volumes:
   pg_data_task:
