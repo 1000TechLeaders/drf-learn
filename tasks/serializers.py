@@ -63,11 +63,12 @@ class TaskSerializer(serializers.ModelSerializer):
         category = Category.objects.create(**category_data)
         instance = Task.objects.create(**validated_data, category=category)
         # asycn execution
-        send_notification_email.apply_async(kwargs={
-            'email': instance.owner.email,
-            'first_name': instance.owner.first_name,
-            'last_name': instance.owner.last_name
-        })
+        if instance.owner:
+            send_notification_email.apply_async(kwargs={
+                'email': instance.owner.email,
+                'first_name': instance.owner.first_name,
+                'last_name': instance.owner.last_name
+            })
         # sync execution
         # send_notification_email(
         #     instance.owner.email,
