@@ -31,3 +31,8 @@ migrate:
 .PHONY: workers
 workers:
 	celery -A config worker --loglevel=INFO
+
+
+.PHONY: scheduler
+scheduler:
+	celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler

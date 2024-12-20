@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from .models import Category
 from .models import Task
+from .tasks import send_notification_email
 from .utils import check_datetime
 # from .utils import send_activation_email
 
@@ -61,7 +62,18 @@ class TaskSerializer(serializers.ModelSerializer):
         category_data = validated_data.pop('category')
         category = Category.objects.create(**category_data)
         instance = Task.objects.create(**validated_data, category=category)
-        # send_activation_email(user=instance.owner)
+        # asycn execution
+        send_notification_email.apply_async(kwargs={
+            'email': instance.owner.email,
+            'first_name': instance.owner.first_name,
+            'last_name': instance.owner.last_name
+        })
+        # sync execution
+        # send_notification_email(
+        #     instance.owner.email,
+        #     instance.owner.first_name,
+        #     instance.owner.last_name
+        # )
         return instance
 
     def update(self, instance, validated_data):

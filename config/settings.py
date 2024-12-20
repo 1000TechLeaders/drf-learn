@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'csp',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -238,3 +241,14 @@ SPECTACULAR_SETTINGS = {
 }
 
 CELERY_BROKER_URL = 'amqp://task:task@localhost:5677//'
+CELERY_RESULT_BACKEND = 'redis://localhost:6377'
+
+TIME_ZONE = 'Africa/Conakry'
+USE_TZ = True
+
+CELERY_BEAT_SCHEDULE = {
+    'export-client-data': {
+        'task': 'tasks.tasks.export_client_data',
+        'schedule': crontab(),
+    }
+}
