@@ -17,7 +17,6 @@ Including another URLconf
 from csp.decorators import csp_exempt
 from django.conf.urls import handler404
 from django.conf.urls import handler500
-from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import include
 from django.urls import path
@@ -32,14 +31,16 @@ handler500 = 'tasks.views.custom_500_view' # noqa
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('oidc/', include('mozilla_django_oidc.urls')),
+    # path('admin/', admin.site.urls),
     path('api/', include('tasks.urls')),
 
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:
     path('docs/',
          staff_member_required(
-         csp_exempt(SpectacularSwaggerView.as_view(url_name='schema'))),
+         csp_exempt(SpectacularSwaggerView.as_view(url_name='schema')),
+         login_url='/oidc/authenticate'),
          name='swagger-ui'),
     path('redoc/',
          csp_exempt(SpectacularRedocView.as_view(url_name='schema')),

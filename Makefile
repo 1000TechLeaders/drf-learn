@@ -16,7 +16,7 @@ test:
 
 .PHONY: run_dev
 run_dev:
-	python manage.py runserver 0:8085
+	python manage.py runserver 0:8087
 
 
 .PHONY: superuser

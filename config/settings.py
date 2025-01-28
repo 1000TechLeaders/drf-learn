@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'mozilla_django_oidc',
     'rest_framework',
     'django_extensions',
     'tasks',
@@ -252,3 +253,24 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(),
     }
 }
+OIDC_RP_CLIENT_ID = 'task-api'
+OIDC_RP_CLIENT_SECRET = 'AUECLlHKLzqCQ7KzKhZPh8fzLCjksPVj'
+
+AUTHENTICATION_BACKENDS = (
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+OIDC_OP_AUTHORIZATION_ENDPOINT = 'http://localhost:8085/realms/task/protocol/openid-connect/auth'
+OIDC_OP_TOKEN_ENDPOINT = 'http://localhost:8085/realms/task/protocol/openid-connect/token'
+OIDC_OP_USER_ENDPOINT = 'http://localhost:8085/realms/task/protocol/openid-connect/userinfo'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/oidc/logout'
+LOGIN_URL = '/oidc/authenticate'
+
+OIDC_RP_SCOPES = 'openid email'
+
+OIDC_RP_SIGN_ALGO = 'RS256'
+
+OIDC_OP_JWKS_ENDPOINT = 'http://localhost:8085/realms/task/protocol/openid-connect/certs'
