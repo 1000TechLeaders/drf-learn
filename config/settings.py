@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tasks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +44,6 @@ INSTALLED_APPS = [
     'mozilla_django_oidc',
     'rest_framework',
     'django_extensions',
-    'tasks',
     'drf_spectacular',
     'drf_spectacular_sidecar',
     'rest_framework.authtoken',
@@ -51,19 +51,38 @@ INSTALLED_APPS = [
     'django_filters',
     'csp',
     'django_celery_beat',
+    'django_prometheus',
+
+    'health_check',                             # required
+    'health_check.db',                          # stock Django health checkers
+    'health_check.cache',
+    'health_check.storage',
+    'health_check.contrib.migrations',
+    'health_check.contrib.celery',              # requires celery
+    'health_check.contrib.celery_ping',         # requires celery
+    'health_check.contrib.psutil',              # disk and memory utilization; requires psutil
+    'health_check.contrib.s3boto3_storage',     # requires boto3 and S3BotoStorage backend
+    'health_check.contrib.rabbitmq',            # requires RabbitMQ broker
+    'health_check.contrib.redis',              # requires Redis broker
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django_permissions_policy.PermissionsPolicyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.http.ConditionalGetMiddleware',
+    # "django.middleware.cache.UpdateCacheMiddleware",
     'django.middleware.common.CommonMiddleware',
+    # "django.middleware.cache.FetchFromCacheMiddleware",
     "csp.middleware.CSPMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'mozilla_django_oidc.middleware.SessionRefresh',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -71,7 +90,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -257,7 +276,7 @@ OIDC_RP_CLIENT_ID = 'task-api'
 OIDC_RP_CLIENT_SECRET = 'AUECLlHKLzqCQ7KzKhZPh8fzLCjksPVj'
 
 AUTHENTICATION_BACKENDS = (
-    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'tasks.authentication.KeycloakOIDCAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -265,12 +284,30 @@ OIDC_OP_AUTHORIZATION_ENDPOINT = 'http://localhost:8085/realms/task/protocol/ope
 OIDC_OP_TOKEN_ENDPOINT = 'http://localhost:8085/realms/task/protocol/openid-connect/token'
 OIDC_OP_USER_ENDPOINT = 'http://localhost:8085/realms/task/protocol/openid-connect/userinfo'
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/oidc/logout'
+LOGIN_REDIRECT_URL = '/admin/'
+LOGOUT_REDIRECT_URL = '/admin/'
 LOGIN_URL = '/oidc/authenticate'
 
-OIDC_RP_SCOPES = 'openid email'
+OIDC_RP_SCOPES = 'openid email profile is_staff'
 
 OIDC_RP_SIGN_ALGO = 'RS256'
 
 OIDC_OP_JWKS_ENDPOINT = 'http://localhost:8085/realms/task/protocol/openid-connect/certs'
+
+OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = 15*60
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}
+
+BROKER_URL = CELERY_BROKER_URL
+
+REDIS_URL = CELERY_RESULT_BACKEND
+
+HEALTH_CHECK = {
+    'DISK_USAGE_MAX': 90,  # percent
+    'MEMORY_MIN': 100,    # in MB
+}

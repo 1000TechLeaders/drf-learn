@@ -37,3 +37,7 @@ celery==5.4.0
 redis==5.2.1
 django_celery_beat==2.7.0
 mozilla-django-oidc==4.0.1
+pymemcache==4.0.0
+django-health-check==3.18.3
+psutil==7.0.0
+django-prometheus==25.0.1

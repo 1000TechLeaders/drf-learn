@@ -17,6 +17,7 @@ Including another URLconf
 from csp.decorators import csp_exempt
 from django.conf.urls import handler404
 from django.conf.urls import handler500
+from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import include
 from django.urls import path
@@ -32,7 +33,7 @@ handler500 = 'tasks.views.custom_500_view' # noqa
 
 urlpatterns = [
     path('oidc/', include('mozilla_django_oidc.urls')),
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/', include('tasks.urls')),
 
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
@@ -50,4 +51,7 @@ urlpatterns = [
          TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/',
          TokenRefreshView.as_view(), name='token_refresh'),
+
+    path(r'ht/', include('health_check.urls')),
+    path('', include('django_prometheus.urls')),
 ]

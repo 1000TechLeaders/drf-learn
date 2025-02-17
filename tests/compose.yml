@@ -22,5 +22,10 @@ services:
     ports:
       - 6377:6379
 
+  memcached:
+    image: bitnami/memcached:latest
+    ports:
+      - 11211:11211
+
 volumes:
   pg_data_task:

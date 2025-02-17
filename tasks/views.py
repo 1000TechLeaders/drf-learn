@@ -1,4 +1,8 @@
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
+from django.views.decorators.vary import vary_on_headers
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.authentication import BasicAuthentication
@@ -43,6 +47,16 @@ class TaskViewSet(mixins.CreateModelMixin,
         user = self.request.user
         serializer.save(owner=user)
 
+    @method_decorator(cache_page(60*5))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @method_decorator(cache_page(60*2))
+    @method_decorator(vary_on_headers('Authorization'))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
 
 # or ReadOnlyModelViewSet
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -53,6 +67,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     pagination_class = None
 
 
+@cache_page(60*10)
 def custom_404_view(request, exception=None):
     return JsonResponse({
         'detail': 'Ressource non trouve.'
